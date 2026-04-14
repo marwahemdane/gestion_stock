@@ -2,14 +2,15 @@ import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/cor
 
 import { MatButtonModule } from '@angular/material/button';
 import { USER_SESSION_KEY } from '../connexion/connexion';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  templateUrl: 'home.html',
-  imports: [MatButtonModule],
+  templateUrl: 'profile.html',
+  imports: [MatButtonModule, MatDividerModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements OnInit {
+export class ProfilePage implements OnInit {
   user = signal<any>(null);
 
   ngOnInit(): void {

@@ -1,0 +1,34 @@
+<div class="navbar-container">
+  <div>LOGO</div>
+  @if (user()) {
+    <div class="navbar-buttons">
+      @if (currentUrl() === '/stock') {
+        <button matButton="filled">Stock</button>
+      } @else {
+        <button matButton routerLink="/stock">Stock</button>
+      }
+
+      @if (currentUrl() === '/commandes') {
+        <button matButton="filled">Commandes</button>
+      } @else {
+        <button matButton routerLink="/commandes">Commandes</button>
+      }
+
+      @if (currentUrl() === '/clients') {
+        <button matButton="filled">Clients</button>
+      } @else {
+        <button matButton routerLink="/clients">Clients</button>
+      }
+    </div>
+    <div class="navbar-icons">
+      @if (currentUrl() === '/profile') {
+        <button matButton="filled"><mat-icon>person</mat-icon> {{ user().displayName }}</button>
+      } @else {
+        <button matButton routerLink="/profile">
+          <mat-icon>person</mat-icon> {{ user().displayName }}
+        </button>
+      }
+      <button matButton (click)="logout()"><mat-icon>logout</mat-icon> Déconnexion</button>
+    </div>
+  }
+</div>

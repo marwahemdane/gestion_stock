@@ -4,26 +4,27 @@ import { USER_SESSION_KEY } from '../connexion/connexion';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ClientService } from '../../services/client.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ArticleService } from '../../services/article.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-type Article = {
+type Client = {
   id: string;
-  label: string;
-  quantity: string;
+  lastname: string;
+  firstname: string;
+  phoneNumber: string;
 };
 
 @Component({
-  templateUrl: 'stock.html',
-  styleUrl: 'stock.css',
-  standalone: true,
+  templateUrl: 'clients.html',
+  styleUrl: 'clients.css',
   imports: [
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -31,12 +32,12 @@ type Article = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StockPage implements OnInit {
+export class ClientsPage implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly articlesService = inject(ArticleService);
+  private readonly clientsService = inject(ClientService);
   user = signal<any>(null);
-  displayedColumns: string[] = ['label', 'quantity', 'action'];
-  dataSource = signal<Article[]>([]);
+  displayedColumns: string[] = ['lastname', 'firstname', 'phoneNumber', 'action'];
+  dataSource = signal<Client[]>([]);
   form!: FormGroup;
   showAddForm = signal(false);
   showEditForm = signal(false);
@@ -46,19 +47,21 @@ export class StockPage implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       id: [null],
-      label: ['', Validators.required],
-      quantity: [1, [Validators.required, Validators.min(1)]],
+      lastname: ['', Validators.required],
+      firstname: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
     });
 
     const isUserConnected = localStorage.getItem(USER_SESSION_KEY);
     this.user.set(isUserConnected ? JSON.parse(isUserConnected) : null);
 
-    this.articlesService.getArticles().subscribe((res) => {
+    this.clientsService.getClients().subscribe((res) => {
       if (res) {
         const data = Object.entries(res).map(([key, value]: any) => ({
           id: key,
-          label: value.label,
-          quantity: value.quantity,
+          lastname: value.lastname,
+          firstname: value.firstname,
+          phoneNumber: value.phoneNumber,
         }));
         this.dataSource.set(data);
       } else {
@@ -71,9 +74,9 @@ export class StockPage implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       if (this.showEditForm()) {
-        this.articlesService.updateArticle(this.form.value.id, this.form.value);
+        this.clientsService.updateClient(this.form.value.id, this.form.value);
       } else {
-        this.articlesService.addArticle(this.form.value);
+        this.clientsService.addClient(this.form.value);
       }
       this.handleFormDisplay(false);
     }
@@ -90,13 +93,13 @@ export class StockPage implements OnInit {
     }
   }
 
-  editArticle(article: Article) {
+  editClient(client: Client) {
     this.showEditForm.set(true);
-    this.form.setValue(article);
+    this.form.setValue(client);
     this.handleFormDisplay(true);
   }
 
-  deleteArticle(article: Article) {
-    this.articlesService.deleteArticle(article.id);
+  deleteClient(client: Client) {
+    this.clientsService.deleteClient(client.id);
   }
 }

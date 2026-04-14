@@ -1,0 +1,15 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.navbar-icons {
+  display: flex;
+  gap: 24px;
+}
