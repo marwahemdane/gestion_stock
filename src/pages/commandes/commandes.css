@@ -2,3 +2,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 24px 64px;
+  gap: 24px;
+}

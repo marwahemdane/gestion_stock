@@ -18,25 +18,32 @@ export class CommandeService {
   constructor(private db: Database) {}
 
   async createCommande(data: any) {
-    const commandesRef = ref(this.db, 'commandes');
-    const newCommande = push(commandesRef);
+    // 1. vérification de stock
+    const articleRef = ref(this.db, `articles/${data.article}`);
 
-    // 1. sauvegarde commande
-    await set(newCommande, data);
+    const snap = await get(articleRef);
+    const current = snap.val();
 
-    // 2. mise à jour stock
-    for (const article of data.articles) {
-      const articleRef = ref(this.db, `articles/${article.id}`);
+    if (current.quantity > data.quantity) {
+      const commandesRef = ref(this.db, 'commandes');
+      const newCommande = push(commandesRef);
 
-      const snap = await get(articleRef);
-      const current = snap.val();
+      // 2. sauvegarde commande
+      await set(newCommande, data);
+
+      // 3. mise à jour stock
 
       await update(articleRef, {
-        quantity: current.quantity - article.quantity,
+        quantity: current.quantity - data.quantity,
       });
+
+      return newCommande;
     }
 
-    return newCommande;
+    return {
+      error: '400',
+      message: 'stock non suffisant',
+    };
   }
 
   getCommandes(): Observable<any> {

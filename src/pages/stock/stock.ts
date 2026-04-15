@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ArticleService } from '../../services/article.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-type Article = {
+export type Article = {
   id: string;
   label: string;
   quantity: string;
