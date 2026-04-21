@@ -1,0 +1,160 @@
+/* Container Principal */
+.home-container {
+  padding: 30px;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* En-tête avec Logo */
+.home-header {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.main-logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-title {
+  color: #2d6a4f;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.tagline {
+  color: #555;
+  margin: 5px 0 0 0;
+  font-style: italic;
+}
+
+/* Grille de Navigation */
+.nav-section {
+  margin-bottom: 40px;
+}
+
+.section-subtitle {
+  color: #1b4332;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-left: 5px solid #2d6a4f;
+  padding-left: 15px;
+}
+
+.nav-grid {
+  display: grid;
+  /* Modification pour accueillir 4 cartes proprement */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+}
+
+/* Style des Boutons-Cartes */
+.nav-card {
+  border: none;
+  padding: 40px 20px;
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.nav-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.1);
+}
+
+.nav-card .icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.nav-card span:last-child {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* Couleurs spécifiques aux boutons */
+.stock {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+}
+.orders {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+}
+.clients {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+/* Intégration de la couleur Mouvements (Ambre/Orange pour le flux) */
+.movements {
+  background: linear-gradient(135deg, #f39c12, #d35400);
+}
+
+/* Cartes d'Information (Bas de page) */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+.card-header {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  font-weight: bold;
+  color: #2d6a4f;
+  border-bottom: 2px solid #2d6a4f;
+  font-size: 1.1rem;
+}
+
+.card-body {
+  padding: 20px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.total-highlight {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #e63946;
+  margin-bottom: 12px;
+}
+
+.unit-box {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 800;
+  margin-top: 15px;
+  border: 1px dashed #065f46;
+}

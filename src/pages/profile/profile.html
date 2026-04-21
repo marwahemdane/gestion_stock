@@ -1,8 +1,29 @@
-<div>
-  <h2>Profile</h2>
-  <mat-divider></mat-divider>
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>Mon Profil</h2>
 
-  <h3>Nom & Prénom: {{ user()?.displayName || '' }}</h3>
+    <div style="text-align: center">
+      <span class="role-badge">Responsable Logistique</span>
+    </div>
 
-  <h3>Email: {{ user()?.email || '' }}</h3>
+    <mat-divider></mat-divider>
+
+    <div class="info-group">
+      <h3>
+        Nom & Prénom:
+        <span>{{ user()?.displayName || 'Non renseigné' }}</span>
+      </h3>
+    </div>
+
+    <div class="info-group">
+      <h3>
+        Email professionnel:
+        <span>{{ user()?.email || 'Non renseigné' }}</span>
+      </h3>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center">
+      <button mat-stroked-button color="warn" routerLink="/home">Retour au Tableau de Bord</button>
+    </div>
+  </div>
 </div>

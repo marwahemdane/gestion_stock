@@ -1,49 +1,60 @@
 @if (loading()) {
-  <h3 style="justify-self: center">Chargement de données en cours...</h3>
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <h3>Chargement des clients...</h3>
+  </div>
 } @else {
-  <div style="display: flex">
-    <div style="flex: 1 0 0">
+  <div class="main-clients-layout">
+    <div class="table-container">
       <div class="clients-header">
-        <h1>Tableau de clients</h1>
+        <h1><mat-icon>people</mat-icon> Liste des Clients</h1>
         @if (!showAddForm()) {
-          <button matButton (click)="handleFormDisplay(true)">
-            <mat-icon> person_add</mat-icon> Ajouter un Nouveau client
+          <button mat-flat-button color="primary" (click)="handleFormDisplay(true)">
+            <mat-icon>person_add</mat-icon> Nouveau Client
           </button>
         }
       </div>
 
       @if (dataSource().length > 0) {
         <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8">
-          <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-          <!-- lastname Column -->
           <ng-container matColumnDef="lastname">
             <th mat-header-cell *matHeaderCellDef>Nom</th>
             <td mat-cell *matCellDef="let element">{{ element.lastname }}</td>
           </ng-container>
 
-          <!-- firstname Column -->
           <ng-container matColumnDef="firstname">
             <th mat-header-cell *matHeaderCellDef>Prénom</th>
             <td mat-cell *matCellDef="let element">{{ element.firstname }}</td>
           </ng-container>
 
-          <!-- phoneNumber Column -->
           <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef>Numéro de téléphone</th>
-            <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+            <th mat-header-cell *matHeaderCellDef>Téléphone</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon style="font-size: 16px; vertical-align: middle; color: #666"
+                >phone</mat-icon
+              >
+              {{ element.phoneNumber }}
+            </td>
           </ng-container>
 
-          <!-- Actions Column-->
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
-              <button matButton (click)="editClient(element)" matTooltip="Modifier le client">
-                <mat-icon> edit</mat-icon>
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editClient(element)"
+                matTooltip="Modifier"
+              >
+                <mat-icon>edit</mat-icon>
               </button>
-              <button matButton (click)="deleteClient(element)" matTooltip="Supprimer le client">
-                <mat-icon> delete</mat-icon>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteClient(element)"
+                matTooltip="Supprimer"
+              >
+                <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
@@ -52,52 +63,51 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       } @else {
-        <h3 class="">La liste des clients est vide</h3>
+        <div style="text-align: center; padding: 40px">
+          <mat-icon style="font-size: 48px; width: 48px; height: 48px; color: #ccc"
+            >group_off</mat-icon
+          >
+          <p>Aucun client enregistré pour le moment.</p>
+        </div>
       }
     </div>
+
     @if (showAddForm()) {
-      <div>
+      <div class="form-side">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-          <div style="display: flex; justify-content: space-between; align-items: center">
-            <h3>{{ showEditForm() ? 'Modifier le client' : 'Ajouter un nouveau client' }}</h3>
-            <button matIconButton (click)="handleFormDisplay(false)">
-              <mat-icon> close</mat-icon>
+          <div class="form-header">
+            <h3>{{ showEditForm() ? 'Modifier Client' : 'Nouveau Client' }}</h3>
+            <button type="button" mat-icon-button (click)="handleFormDisplay(false)">
+              <mat-icon>close</mat-icon>
             </button>
           </div>
 
           <mat-form-field appearance="outline">
-            <mat-label>Nom du client</mat-label>
+            <mat-label>Nom</mat-label>
             <input matInput formControlName="lastname" />
-            @if (form.get('lastname')?.hasError('required')) {
-              <mat-error> Le nom est obligatoire </mat-error>
-            }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Prénom du client</mat-label>
+            <mat-label>Prénom</mat-label>
             <input matInput formControlName="firstname" />
-            @if (form.get('firstname')?.hasError('required')) {
-              <mat-error> Le prénom est obligatoire </mat-error>
-            }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Numéro de téléphone</mat-label>
-            <input matInput type="number" formControlName="phoneNumber" />
-            @if (form.get('phoneNumber')?.hasError('required')) {
-              <mat-error> Le numéro de téléphone est obligatoire </mat-error>
-            }
+            <mat-label>Téléphone</mat-label>
+            <input matInput type="tel" formControlName="phoneNumber" />
+            <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
 
-          @if (showEditForm()) {
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
-              <mat-icon> edit</mat-icon> Modifier le client
-            </button>
-          } @else {
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
-              <mat-icon> person_add</mat-icon> Nouveau client
-            </button>
-          }
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 100%"
+            type="submit"
+            [disabled]="!form.valid"
+          >
+            <mat-icon>{{ showEditForm() ? 'save' : 'check' }}</mat-icon>
+            {{ showEditForm() ? 'Mettre à jour' : 'Enregistrer' }}
+          </button>
         </form>
       </div>
     }

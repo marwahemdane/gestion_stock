@@ -1,11 +1,14 @@
 .login-container {
-  height: 300px;
+  /* Supprime le height: 300px qui entre en conflit avec le 100vh */
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh; /* Corrigé : ":" au lieu de ";" */
+  background-color: #f5f5f5;
 }
 
 .login-card {
+  background: white; /* Corrigé : "background" au lieu de "back-ground" */
   padding: 40px;
   border-radius: 12px;
   text-align: center;
@@ -15,16 +18,17 @@
 
 h1 {
   margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
 }
 
 .google-btn {
   margin-top: 20px;
   width: 100%;
   padding: 12px;
-  border: none;
+  border: 1px solid #ddd; /* Fusion des propriétés border */
   border-radius: 8px;
   background: white;
-  border: 1px solid #ddd;
   cursor: pointer;
   font-weight: 500;
   display: flex;
@@ -35,11 +39,13 @@ h1 {
 }
 
 .google-btn:hover {
-  background: #f1f1f1;
+  background: #f8f8f8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .google-btn img {
   width: 20px;
+  height: 20px;
 }
 
 .footer-text {

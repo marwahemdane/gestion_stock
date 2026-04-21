@@ -1,12 +1,130 @@
+/* Layout Principal */
+.main-stock-layout {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+/* Zone Tableau */
+.table-container {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
 .stock-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #2d6a4f;
+  padding-bottom: 10px;
+}
+
+.stock-header h1 {
+  color: #2d6a4f;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+/* Table Material Custom */
+.mat-table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  color: #1b4332 !important;
+  font-weight: bold !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase;
+}
+
+.mat-cell {
+  font-size: 0.95rem;
+  padding: 12px 5px !important;
+}
+
+.unit-text {
+  color: #888;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+/* Formulaire à droite */
+.form-side {
+  width: 380px;
+  position: sticky;
+  top: 20px;
 }
 
 .form-container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #2d6a4f;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-header h3 {
+  margin: 0;
+  color: #1b4332;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.form-actions button {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+}
+
+/* États spécifiques */
+.loading-container {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  padding: 24px 64px;
-  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #2d6a4f;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px;
+  color: #999;
+}
+
+.empty-state mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 10px;
+}
+
+.stock-footer {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
 }

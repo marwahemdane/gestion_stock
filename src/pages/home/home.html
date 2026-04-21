@@ -1,1 +1,73 @@
-<h1>Welcome home {{ user()?.displayName || '' }}</h1>
+<div class="home-container">
+  <header class="home-header">
+    <div class="header-content">
+      <img src="assets/images/logo.png" alt="Logo Royal Plant" class="main-logo" />
+      <div class="company-text">
+        <h1 class="header-title">Pépinière Royal Plant</h1>
+        <p class="tagline">Production de plants maraîchers d'excellence depuis 2017</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="nav-section">
+    <h2 class="section-subtitle">Navigation Logistique</h2>
+
+    <div class="nav-grid">
+      <a class="nav-card stock" routerLink="/stock">
+        <span class="icon">📦</span>
+        <span>Gestion du Stock</span>
+      </a>
+
+      <a class="nav-card orders" routerLink="/commandes">
+        <span class="icon">📋</span>
+        <span>Suivi Commandes</span>
+      </a>
+
+      <a class="nav-card clients" routerLink="/clients">
+        <span class="icon">👥</span>
+        <span>Fiches Clients</span>
+      </a>
+
+      <a class="nav-card movements" routerLink="/mouvements">
+        <span class="icon">🔄</span>
+        <span>Flux & Mouvements</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="info-grid">
+    <div class="info-card">
+      <div class="card-header">👥 Direction & Fondateurs</div>
+      <div class="card-body">
+        <ul class="list-unstyled">
+          <li><strong>Anouer Ben Yahia :</strong> Gérant</li>
+          <li><strong>Zouhaier Derouiche :</strong> Directeur Technique</li>
+          <li><strong>Imed Mrabet :</strong> Directeur Technique</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-header">📊 Objectifs de Production</div>
+      <div class="card-body">
+        <p class="total-highlight">Total Annuel : 190 Millions de plants</p>
+        <ul class="list-small">
+          <li>🍅 Tomates de saison : 90M</li>
+          <li>🌶️ Piments : 12M</li>
+          <li>🥬 Choux & Laitue : 60M</li>
+          <li>🌱 Fenouil : 20M</li>
+          <li>🍉 Melons & Pastèques : 8M</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-header">🏗️ Infrastructure & Logistique</div>
+      <div class="card-body">
+        <p>• Serre indépendante pour essais</p>
+        <p>• Parcelle expérimentale : 1 Hectare</p>
+        <div class="unit-box">📦 CONDITIONNEMENT : Plateaux de 160 racines</div>
+      </div>
+    </div>
+  </section>
+</div>

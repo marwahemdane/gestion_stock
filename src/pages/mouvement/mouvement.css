@@ -1,0 +1,80 @@
+.mouvement-container {
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+.header h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+}
+
+.mvt-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Bordures dynamiques */
+.border-entree {
+  border-left: 6px solid #4caf50;
+}
+.border-sortie {
+  border-left: 6px solid #f44336;
+}
+
+.mvt-details {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.article-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.bottom-row {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 0.9em;
+}
+.bottom-row mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+/* Couleurs de texte et badges */
+.text-green {
+  color: #4caf50;
+}
+.text-red {
+  color: #f44336;
+}
+.bg-green {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.bg-red {
+  background: #ffebee;
+  color: #c62828;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.active-link {
+  background: rgba(0, 0, 0, 0.05);
+  border-right: 3px solid #3f51b5;
+}

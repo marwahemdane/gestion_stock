@@ -1,14 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { USER_SESSION_KEY } from '../connexion/connexion';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+// Angular Material Imports
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ArticleService } from '../../services/article.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+// Project Imports
+import { USER_SESSION_KEY } from '../connexion/connexion';
+import { ArticleService } from '../../services/article.service';
 
 export type Article = {
   id: string;
@@ -17,10 +22,12 @@ export type Article = {
 };
 
 @Component({
+  selector: 'app-stock',
   templateUrl: 'stock.html',
   styleUrl: 'stock.css',
   standalone: true,
   imports: [
+    CommonModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
@@ -28,31 +35,42 @@ export type Article = {
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockPage implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly articlesService = inject(ArticleService);
+
   user = signal<any>(null);
   displayedColumns: string[] = ['label', 'quantity', 'action'];
   dataSource = signal<Article[]>([]);
   form!: FormGroup;
   showAddForm = signal(false);
   showEditForm = signal(false);
-
   loading = signal(true);
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadUser();
+    this.loadArticles();
+  }
+
+  private initForm() {
     this.form = this.fb.group({
       id: [null],
       label: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
     });
+  }
 
+  private loadUser() {
     const isUserConnected = localStorage.getItem(USER_SESSION_KEY);
     this.user.set(isUserConnected ? JSON.parse(isUserConnected) : null);
+  }
 
+  private loadArticles() {
     this.articlesService.getArticles().subscribe((res) => {
       if (res) {
         const data = Object.entries(res).map(([key, value]: any) => ({
@@ -80,23 +98,22 @@ export class StockPage implements OnInit {
   }
 
   handleFormDisplay(isVisisble: boolean) {
-    if (isVisisble) {
-      this.showAddForm.set(true);
-    } else {
-      this.showAddForm.set(false);
+    this.showAddForm.set(isVisisble);
+    if (!isVisisble) {
       this.showEditForm.set(false);
-
-      this.form.reset();
+      this.form.reset({ quantity: 1 });
     }
   }
 
   editArticle(article: Article) {
     this.showEditForm.set(true);
-    this.form.setValue(article);
-    this.handleFormDisplay(true);
+    this.form.patchValue(article);
+    this.showAddForm.set(true);
   }
 
   deleteArticle(article: Article) {
-    this.articlesService.deleteArticle(article.id);
+    if (confirm('Voulez-vous vraiment supprimer cet article ?')) {
+      this.articlesService.deleteArticle(article.id);
+    }
   }
 }

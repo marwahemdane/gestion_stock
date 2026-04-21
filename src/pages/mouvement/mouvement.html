@@ -1,0 +1,40 @@
+<div class="mouvement-container">
+  <div class="header">
+    <h1><mat-icon>assessment</mat-icon> Flux et Mouvements de Stock</h1>
+    <p>Historique complet des entrées et sorties</p>
+  </div>
+
+  <div class="card-list">
+    @for (mvt of dataSource(); track mvt.id) {
+      <div class="mvt-card" [ngClass]="mvt.type === 'ENTREE' ? 'border-entree' : 'border-sortie'">
+        <div class="status-icon">
+          @if (mvt.type === 'ENTREE') {
+            <mat-icon class="text-green">arrow_downward</mat-icon>
+          } @else {
+            <mat-icon class="text-red">arrow_upward</mat-icon>
+          }
+        </div>
+
+        <div class="mvt-details">
+          <div class="top-row">
+            <span class="article-name">{{ mvt.articleName }}</span>
+            <span class="mvt-type" [class]="mvt.type === 'ENTREE' ? 'bg-green' : 'bg-red'">
+              {{ mvt.type }}
+            </span>
+          </div>
+
+          <div class="bottom-row">
+            <span><mat-icon>inventory</mat-icon> Qté: {{ mvt.quantite }}</span>
+            <span><mat-icon>event</mat-icon> {{ mvt.date | date: 'dd/MM/yyyy HH:mm' }}</span>
+            <span><mat-icon>person</mat-icon> {{ mvt.user || 'Admin' }}</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="no-data">
+        <mat-icon>inbox</mat-icon>
+        <p>Aucun mouvement trouvé dans la base de données.</p>
+      </div>
+    }
+  </div>
+</div>

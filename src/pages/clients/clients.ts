@@ -1,14 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { USER_SESSION_KEY } from '../connexion/connexion';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+// Material
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ClientService } from '../../services/client.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+// Projet
+import { USER_SESSION_KEY } from '../connexion/connexion';
+import { ClientService } from '../../services/client.service';
 
 export type Client = {
   id: string;
@@ -18,43 +23,56 @@ export type Client = {
 };
 
 @Component({
+  selector: 'app-clients',
   templateUrl: 'clients.html',
   styleUrl: 'clients.css',
+  standalone: true,
   imports: [
+    CommonModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsPage implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly clientsService = inject(ClientService);
+
   user = signal<any>(null);
   displayedColumns: string[] = ['lastname', 'firstname', 'phoneNumber', 'action'];
   dataSource = signal<Client[]>([]);
   form!: FormGroup;
   showAddForm = signal(false);
   showEditForm = signal(false);
-
   loading = signal(true);
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadUser();
+    this.loadClients();
+  }
+
+  private initForm() {
     this.form = this.fb.group({
       id: [null],
       lastname: ['', Validators.required],
       firstname: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{8,}$')]], // Min 8 chiffres
     });
+  }
 
+  private loadUser() {
     const isUserConnected = localStorage.getItem(USER_SESSION_KEY);
     this.user.set(isUserConnected ? JSON.parse(isUserConnected) : null);
+  }
 
+  private loadClients() {
     this.clientsService.getClients().subscribe((res) => {
       if (res) {
         const data = Object.entries(res).map(([key, value]: any) => ({
@@ -82,24 +100,23 @@ export class ClientsPage implements OnInit {
     }
   }
 
-  handleFormDisplay(isVisisble: boolean) {
-    if (isVisisble) {
-      this.showAddForm.set(true);
-    } else {
-      this.showAddForm.set(false);
+  handleFormDisplay(isVisible: boolean) {
+    this.showAddForm.set(isVisible);
+    if (!isVisible) {
       this.showEditForm.set(false);
-
       this.form.reset();
     }
   }
 
   editClient(client: Client) {
     this.showEditForm.set(true);
-    this.form.setValue(client);
-    this.handleFormDisplay(true);
+    this.form.patchValue(client); // Plus propre que setValue
+    this.showAddForm.set(true);
   }
 
   deleteClient(client: Client) {
-    this.clientsService.deleteClient(client.id);
+    if (confirm(`Supprimer le client ${client.firstname} ${client.lastname} ?`)) {
+      this.clientsService.deleteClient(client.id);
+    }
   }
 }
