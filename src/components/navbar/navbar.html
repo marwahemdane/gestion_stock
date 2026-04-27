@@ -19,6 +19,18 @@
       } @else {
         <button matButton routerLink="/clients">Clients</button>
       }
+
+      @if (currentUrl() === '/mouvements') {
+        <button matButton="filled">flux&mouvement</button>
+      } @else {
+        <button matButton routerLink="/mouvements">flux&mouvement</button>
+      }
+
+      @if (currentUrl() === '/home') {
+        <button matButton="filled">page d'accueil</button>
+      } @else {
+        <button matButton routerLink="/home">page d'accueil</button>
+      }
     </div>
     <div class="navbar-icons">
       @if (currentUrl() === '/profile') {

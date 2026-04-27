@@ -4,7 +4,7 @@
   align-items: center;
   padding: 40px 20px;
   background-color: #f4f7f6;
-  min-height: calc(100vh - 80px); /* Ajuste selon la taille de ta navbar */
+  min-height: calc(100vh - 80px);
 }
 
 .profile-card {
@@ -14,7 +14,7 @@
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  border-top: 8px solid #2d6a4f; /* Le vert Royal Plant */
+  border-top: 8px solid #2d6a4f;
 }
 
 h2 {
@@ -55,7 +55,6 @@ h3 span {
   border: 1px solid #eee;
 }
 
-/* Badge pour le rôle (utile pour ton PFE) */
 .role-badge {
   display: inline-block;
   background: #d1fae5;

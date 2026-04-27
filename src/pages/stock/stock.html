@@ -18,7 +18,7 @@
       @if (dataSource().length > 0) {
         <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8">
           <ng-container matColumnDef="label">
-            <th mat-header-cell *matHeaderCellDef>Nom de l'article (Variété)</th>
+            <th mat-header-cell *matHeaderCellDef>Nom de l'article</th>
             <td mat-cell *matCellDef="let element">{{ element.label }}</td>
           </ng-container>
 
@@ -81,7 +81,7 @@
           </div>
 
           <mat-form-field appearance="outline">
-            <mat-label>Nom de l'article (ex: Tomate Savera)</mat-label>
+            <mat-label>Nom de l'article</mat-label>
             <input matInput formControlName="label" placeholder="Entrez le nom" />
             @if (form.get('label')?.hasError('required')) {
               <mat-error>Le nom est obligatoire</mat-error>

@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-// Material
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,8 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-// Projet
 import { USER_SESSION_KEY } from '../connexion/connexion';
 import { ClientService } from '../../services/client.service';
 
@@ -63,7 +59,7 @@ export class ClientsPage implements OnInit {
       id: [null],
       lastname: ['', Validators.required],
       firstname: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{8,}$')]], // Min 8 chiffres
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{8,}$')]],
     });
   }
 
@@ -110,7 +106,7 @@ export class ClientsPage implements OnInit {
 
   editClient(client: Client) {
     this.showEditForm.set(true);
-    this.form.patchValue(client); // Plus propre que setValue
+    this.form.patchValue(client);
     this.showAddForm.set(true);
   }
 

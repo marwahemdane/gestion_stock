@@ -32,7 +32,6 @@ export class ArticleService {
         },
       );
 
-      // cleanup (important 🔥)
       return () => unsubscribe();
     });
   }

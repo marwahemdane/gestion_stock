@@ -31,7 +31,6 @@
   font-weight: bold;
 }
 
-/* Style des cellules de date */
 .date-cell {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
@@ -45,7 +44,6 @@
   border-radius: 4px;
 }
 
-/* Formulaire */
 .form-side {
   width: 400px;
   position: sticky;

@@ -33,7 +33,6 @@ export class ClientService {
         },
       );
 
-      // cleanup (important 🔥)
       return () => unsubscribe();
     });
   }

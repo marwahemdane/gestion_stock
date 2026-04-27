@@ -18,14 +18,14 @@
         <div class="mvt-details">
           <div class="top-row">
             <span class="article-name">{{ mvt.articleName }}</span>
-            <span class="mvt-type" [class]="mvt.type === 'ENTREE' ? 'bg-green' : 'bg-red'">
+            <span class="mvt-type" [ngClass]="mvt.type === 'ENTREE' ? 'bg-green' : 'bg-red'">
               {{ mvt.type }}
             </span>
           </div>
 
           <div class="bottom-row">
             <span><mat-icon>inventory</mat-icon> Qté: {{ mvt.quantite }}</span>
-            <span><mat-icon>event</mat-icon> {{ mvt.date | date: 'dd/MM/yyyy HH:mm' }}</span>
+            <span><mat-icon>event</mat-icon> {{ mvt.date }}</span>
             <span><mat-icon>person</mat-icon> {{ mvt.user || 'Admin' }}</span>
           </div>
         </div>

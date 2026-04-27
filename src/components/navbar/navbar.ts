@@ -35,7 +35,6 @@ export class Navbar implements OnInit {
   logout() {
     return signOut(this.auth).then(() => {
       localStorage.removeItem(USER_SESSION_KEY);
-      // this.router.createUrlTree(['/connexion'])
       this.router.navigateByUrl('/connexion');
       this.user.set(null);
     });

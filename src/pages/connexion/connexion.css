@@ -1,14 +1,13 @@
 .login-container {
-  /* Supprime le height: 300px qui entre en conflit avec le 100vh */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Corrigé : ":" au lieu de ";" */
+  height: 100vh;
   background-color: #f5f5f5;
 }
 
 .login-card {
-  background: white; /* Corrigé : "background" au lieu de "back-ground" */
+  background: white;
   padding: 40px;
   border-radius: 12px;
   text-align: center;

@@ -1,4 +1,3 @@
-/* Container Principal */
 .home-container {
   padding: 30px;
   background-color: #f4f7f6;
@@ -6,7 +5,6 @@
   font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* En-tête avec Logo */
 .home-header {
   background: white;
   padding: 25px;
@@ -40,7 +38,6 @@
   font-style: italic;
 }
 
-/* Grille de Navigation */
 .nav-section {
   margin-bottom: 40px;
 }
@@ -56,12 +53,10 @@
 
 .nav-grid {
   display: grid;
-  /* Modification pour accueillir 4 cartes proprement */
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 25px;
 }
 
-/* Style des Boutons-Cartes */
 .nav-card {
   border: none;
   padding: 40px 20px;
@@ -96,7 +91,6 @@
   text-align: center;
 }
 
-/* Couleurs spécifiques aux boutons */
 .stock {
   background: linear-gradient(135deg, #2d6a4f, #40916c);
 }
@@ -106,12 +100,10 @@
 .clients {
   background: linear-gradient(135deg, #9b59b6, #8e44ad);
 }
-/* Intégration de la couleur Mouvements (Ambre/Orange pour le flux) */
 .movements {
   background: linear-gradient(135deg, #f39c12, #d35400);
 }
 
-/* Cartes d'Information (Bas de page) */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));

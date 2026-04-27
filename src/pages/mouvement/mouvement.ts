@@ -1,37 +1,37 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit, inject, signal, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MouvementService } from '../../services/mouvement.service';
+import { MatCardModule } from '@angular/material/card';
+import { CommandeService } from '../../services/commande.service';
 
 @Component({
   selector: 'app-mouvement',
   standalone: true,
-  imports: [CommonModule, MatIconModule, DatePipe],
+  imports: [CommonModule, MatIconModule, MatCardModule],
   templateUrl: './mouvement.html',
   styleUrl: './mouvement.css',
+  encapsulation: ViewEncapsulation.None,
 })
-export class MouvementPage implements OnInit {
-  private mouvementService: any = inject(MouvementService);
+export class MouvementsPage implements OnInit {
+  private commandeService = inject(CommandeService);
+
   dataSource = signal<any[]>([]);
 
-  ngOnInit(): void {
-    this.chargerMouvements();
-  }
-
-  chargerMouvements(): void {
-    this.mouvementService.getMouvements().subscribe({
+  ngOnInit() {
+    this.commandeService.getMouvements().subscribe({
       next: (res: any) => {
         if (res) {
-          const data = Object.entries(res).map(([key, value]: [string, any]) => ({
-            id: key,
-            ...value,
+          const data = Object.entries(res).map(([id, val]: any) => ({
+            id,
+            ...val,
+            articleName: val.articleName || val.articleLabel || 'Article inconnu',
           }));
           this.dataSource.set(data.reverse());
+        } else {
+          this.dataSource.set([]);
         }
       },
-      error: (err: any) => {
-        console.error('Erreur :', err);
-      },
+      error: (err: any) => console.error('Erreur chargement mouvements:', err),
     });
   }
 }
