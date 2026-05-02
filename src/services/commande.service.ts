@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Database, ref, set, push, update, remove, get, onValue } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CommandeService {
   constructor(private db: Database) {}
 
+  saveMouvement(mouvement: any): Observable<any> {
+    const mouvementsRef = ref(this.db, 'mouvements');
+    return from(push(mouvementsRef, mouvement));
+  }
+
   async createCommande(data: any) {
     const articleRef = ref(this.db, `articles/${data.article}`);
-
     const snap = await get(articleRef);
     const current = snap.val();
 
     if (current && current.quantity >= data.quantity) {
       const commandesRef = ref(this.db, 'commandes');
-      const newCommande = push(commandesRef);
+      const newCommandeRef = push(commandesRef);
 
-      await set(newCommande, data);
+      await set(newCommandeRef, data);
 
       await update(articleRef, {
         quantity: current.quantity - data.quantity,
@@ -26,18 +30,18 @@ export class CommandeService {
       await push(mouvementsRef, {
         date: data.dateCommande,
         articleId: data.article,
-        articleLabel: current.label || current.labelle || 'Article',
+        articleName: current.label,
         type: 'SORTIE',
         quantite: data.quantity,
         client: data.client,
       });
 
-      return newCommande;
+      return newCommandeRef;
     }
 
     return {
       error: '400',
-      message: 'stock non suffisant',
+      message: 'Stock insuffisant',
     };
   }
 
@@ -46,12 +50,8 @@ export class CommandeService {
       const commandesRef = ref(this.db, 'commandes');
       const unsubscribe = onValue(
         commandesRef,
-        (snapshot) => {
-          observer.next(snapshot.val());
-        },
-        (error) => {
-          observer.error(error);
-        },
+        (snapshot) => observer.next(snapshot.val()),
+        (error) => observer.error(error),
       );
       return () => unsubscribe();
     });
@@ -62,12 +62,8 @@ export class CommandeService {
       const mouvementsRef = ref(this.db, 'mouvements');
       const unsubscribe = onValue(
         mouvementsRef,
-        (snapshot) => {
-          observer.next(snapshot.val());
-        },
-        (error) => {
-          observer.error(error);
-        },
+        (snapshot) => observer.next(snapshot.val()),
+        (error) => observer.error(error),
       );
       return () => unsubscribe();
     });

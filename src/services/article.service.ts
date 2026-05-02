@@ -1,17 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  Database,
-  ref,
-  set,
-  push,
-  update,
-  remove,
-  get,
-  onValue,
-  query,
-  orderByChild,
-  equalTo,
-} from '@angular/fire/database';
+import { Database, ref, push, update, remove, onValue } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -38,15 +26,16 @@ export class ArticleService {
 
   addArticle(article: any) {
     const refArticles = ref(this.db, 'articles');
-    const newRef = push(refArticles);
-    return set(newRef, article);
+    return push(refArticles, article);
   }
 
   updateArticle(id: string, data: any) {
-    return update(ref(this.db, `articles/${id}`), data);
+    const articleRef = ref(this.db, `articles/${id}`);
+    return update(articleRef, data);
   }
 
   deleteArticle(id: string) {
-    return remove(ref(this.db, `articles/${id}`));
+    const articleRef = ref(this.db, `articles/${id}`);
+    return remove(articleRef);
   }
 }

@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { USER_SESSION_KEY } from '../connexion/connexion';
 import { ClientService } from '../../services/client.service';
 import { ArticleService } from '../../services/article.service';
@@ -32,6 +33,7 @@ import { CommandeService } from '../../services/commande.service';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
+    MatTooltipModule,
   ],
   templateUrl: './commandes.html',
   styleUrl: './commandes.css',
@@ -53,7 +55,14 @@ export class CommandesPage implements OnInit {
   dataSource = signal<any[]>([]);
 
   form: FormGroup;
-  displayedColumns: string[] = ['client', 'article', 'quantity', 'date'];
+  displayedColumns: string[] = [
+    'client',
+    'article',
+    'quantity',
+    'dateCommande',
+    'dateLivraison',
+    'actions',
+  ];
 
   constructor() {
     this.form = this.fb.group({
@@ -111,12 +120,19 @@ export class CommandesPage implements OnInit {
     this.isEditing.set(true);
     this.editId.set(commande.id);
     this.showAddForm.set(true);
+
+    const parseDate = (dateStr: string) => {
+      if (!dateStr) return null;
+      const [day, month, year] = dateStr.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    };
+
     this.form.patchValue({
       client: commande.client,
       article: commande.article,
       quantity: commande.quantity,
-      dateCommande: new Date(),
-      dateLivraison: null,
+      dateCommande: parseDate(commande.dateCommande) || new Date(),
+      dateLivraison: parseDate(commande.dateLivraison),
     });
   }
 
@@ -128,10 +144,11 @@ export class CommandesPage implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
+      const val = this.form.value;
       const data = {
-        ...this.form.value,
-        dateCommande: formatDate(this.form.value.dateCommande, 'dd-MM-yyyy', 'en-US'),
-        dateLivraison: formatDate(this.form.value.dateLivraison, 'dd-MM-yyyy', 'en-US'),
+        ...val,
+        dateCommande: formatDate(val.dateCommande, 'dd/MM/yyyy', 'en-US'),
+        dateLivraison: formatDate(val.dateLivraison, 'dd/MM/yyyy', 'en-US'),
       };
 
       if (this.isEditing() && this.editId()) {
@@ -142,6 +159,10 @@ export class CommandesPage implements OnInit {
         this.commandesService.createCommande(data).then(() => this.handleFormDisplay(false));
       }
     }
+  }
+
+  onPrint(element: any) {
+    window.print();
   }
 
   logout() {

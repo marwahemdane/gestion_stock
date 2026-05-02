@@ -1,6 +1,12 @@
 <div class="navbar-container">
   <div>LOGO</div>
   @if (user()) {
+    @if (currentUrl() === '/home') {
+      <button matButton="filled">page d'accueil</button>
+    } @else {
+      <button matButton routerLink="/home">page d'accueil</button>
+    }
+
     <div class="navbar-buttons">
       @if (currentUrl() === '/stock') {
         <button matButton="filled">Stock</button>
@@ -24,12 +30,6 @@
         <button matButton="filled">flux&mouvement</button>
       } @else {
         <button matButton routerLink="/mouvements">flux&mouvement</button>
-      }
-
-      @if (currentUrl() === '/home') {
-        <button matButton="filled">page d'accueil</button>
-      } @else {
-        <button matButton routerLink="/home">page d'accueil</button>
       }
     </div>
     <div class="navbar-icons">

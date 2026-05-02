@@ -10,11 +10,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { USER_SESSION_KEY } from '../connexion/connexion';
 import { ArticleService } from '../../services/article.service';
+import { CommandeService } from '../../services/commande.service';
 
 export type Article = {
   id: string;
   label: string;
-  quantity: string;
+  quantity: number;
 };
 
 @Component({
@@ -38,6 +39,7 @@ export type Article = {
 export class StockPage implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly articlesService = inject(ArticleService);
+  private readonly commandeService = inject(CommandeService);
 
   user = signal<any>(null);
   displayedColumns: string[] = ['label', 'quantity', 'action'];
@@ -84,18 +86,42 @@ export class StockPage implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      const articleData = this.form.value;
+
       if (this.showEditForm()) {
-        this.articlesService.updateArticle(this.form.value.id, this.form.value);
+        this.articlesService.updateArticle(articleData.id, articleData);
+        this.handleFormDisplay(false);
       } else {
-        this.articlesService.addArticle(this.form.value);
+        this.articlesService
+          .addArticle(articleData)
+          .then((res: any) => {
+            if (res && res.key) {
+              const mouvementEntree = {
+                date: new Date().toLocaleString(),
+                articleId: res.key,
+                articleName: articleData.label,
+                type: 'ENTREE',
+                quantite: articleData.quantity,
+                user: this.user()?.email,
+              };
+
+              this.commandeService.saveMouvement(mouvementEntree).subscribe({
+                next: () => {
+                  console.log("Mouvement d'entrée enregistré !");
+                  this.handleFormDisplay(false);
+                },
+                error: (err) => console.error('Erreur mouvement:', err),
+              });
+            }
+          })
+          .catch((err) => console.error('Erreur ajout article:', err));
       }
-      this.handleFormDisplay(false);
     }
   }
 
-  handleFormDisplay(isVisisble: boolean) {
-    this.showAddForm.set(isVisisble);
-    if (!isVisisble) {
+  handleFormDisplay(isVisible: boolean) {
+    this.showAddForm.set(isVisible);
+    if (!isVisible) {
       this.showEditForm.set(false);
       this.form.reset({ quantity: 1 });
     }
